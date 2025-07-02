@@ -60,16 +60,19 @@ const data = await PatientService.getAll();
     }
   };
 
-  const handlePatientSelect = (patient) => {
-    setSelectedPatient(patient);
-setAnalysisData({
-      symptoms: patient.currentSymptoms?.join(', ') || '',
-      medicalHistory: patient.medicalHistory?.join(', ') || '',
-      labResults: patient.labResults?.map(lab => `${lab.name}: ${lab.value} ${lab.unit}`).join(', ') || '',
-      lifestyle: '',
-      notes: ''
+const handlePatientSelect = (patient) => {
+    // Use requestAnimationFrame to prevent ResizeObserver conflicts during state updates
+    requestAnimationFrame(() => {
+      setSelectedPatient(patient);
+      setAnalysisData({
+        symptoms: patient.currentSymptoms?.join(', ') || '',
+        medicalHistory: patient.medicalHistory?.join(', ') || '',
+        labResults: patient.labResults?.map(lab => `${lab.name}: ${lab.value} ${lab.unit}`).join(', ') || '',
+        lifestyle: '',
+        notes: ''
+      });
+      setAiInsights([]);
     });
-    setAiInsights([]);
   };
 
   const generateAIInsights = async () => {

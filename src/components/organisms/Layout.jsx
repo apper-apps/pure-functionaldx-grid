@@ -4,7 +4,7 @@ import Header from '@/components/organisms/Header';
 import Sidebar from '@/components/organisms/Sidebar';
 
 const Layout = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   const closeSidebar = () => setSidebarOpen(false);
