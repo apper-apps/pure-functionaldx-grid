@@ -35,7 +35,7 @@ export const IntakeFormService = {
     }
   },
 
-  getById: async (id) => {
+getById: async (id) => {
     try {
       const { ApperClient } = window.ApperSDK;
       const apperClient = new ApperClient({
@@ -57,24 +57,37 @@ export const IntakeFormService = {
         ]
       };
       
-const response = await apperClient.getRecordById('intake_form', parseInt(id), params);
+      const response = await apperClient.getRecordById('intake_form', parseInt(id), params);
       
       if (!response.success) {
         // Handle "not found" as null return, throw for other errors
         if (response.message && (
-          response.message.includes('not found') || 
-          response.message.includes('Not found') ||
-          response.message.includes('Record with id') ||
-          response.message.includes('does not exist')
+          response.message.toLowerCase().includes('not found') || 
+          response.message.toLowerCase().includes('record with id') ||
+          response.message.toLowerCase().includes('does not exist') ||
+          response.message.toLowerCase().includes('no record found') ||
+          response.message.toLowerCase().includes('record not found') ||
+          response.message.includes('404')
         )) {
+          console.log(`Intake form with ID ${id} not found, returning null`);
           return null;
         }
-        console.error(response.message);
+        console.error(`Error fetching intake form with ID ${id}:`, response.message);
         throw new Error(response.message);
       }
       
       return response.data;
     } catch (error) {
+      // Check if this is a network/API error that might indicate "not found"
+      if (error.message && (
+        error.message.toLowerCase().includes('not found') ||
+        error.message.toLowerCase().includes('record with id') ||
+        error.message.toLowerCase().includes('does not exist') ||
+        error.message.toLowerCase().includes('404')
+      )) {
+        console.log(`Intake form with ID ${id} not found, returning null`);
+        return null;
+      }
       console.error(`Error fetching intake form with ID ${id}:`, error);
       throw error;
     }
