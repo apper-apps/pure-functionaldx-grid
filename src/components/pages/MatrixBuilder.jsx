@@ -67,8 +67,23 @@ const MatrixBuilder = () => {
       setLoading(true);
       setError('');
       await new Promise(resolve => setTimeout(resolve, 300));
-      const data = await PatientService.getAll();
-      setPatients(data);
+const data = await PatientService.getAll();
+      // Transform database fields to match UI expectations
+      const transformedData = data.map(patient => ({
+        ...patient,
+        name: patient.Name,
+        dateOfBirth: patient.date_of_birth,
+        contactInfo: {
+          email: patient.contact_info_email,
+          phone: patient.contact_info_phone,
+          address: patient.contact_info_address
+        },
+        medicalHistory: patient.medical_history ? patient.medical_history.split(',') : [],
+        currentSymptoms: patient.current_symptoms ? patient.current_symptoms.split(',') : [],
+        labResults: patient.lab_results ? JSON.parse(patient.lab_results) : [],
+        createdAt: patient.created_at
+      }));
+      setPatients(transformedData);
     } catch (err) {
       setError('Failed to load patients');
     } finally {
@@ -84,19 +99,27 @@ const MatrixBuilder = () => {
   const loadMatrix = async (patientId) => {
     try {
       setLoading(true);
-      const matrixData = await MatrixService.getByPatientId(patientId);
-      setMatrix(matrixData);
+const matrixData = await MatrixService.getByPatientId(patientId);
+      // Transform database fields to match UI expectations
+      const transformedMatrix = {
+        ...matrixData,
+        systems: matrixData.systems ? JSON.parse(matrixData.systems) : {},
+        annotations: matrixData.annotations ? JSON.parse(matrixData.annotations) : [],
+        patientId: matrixData.patient_id,
+        lastModified: matrixData.last_modified
+      };
+      setMatrix(transformedMatrix);
     } catch (err) {
       // Create new matrix if none exists
+// Create new matrix if none exists
       const newMatrix = {
-        Id: Date.now(),
-        patientId,
+        Name: `Matrix for Patient ${patientId}`,
+        patient_id: patientId,
         systems: {},
         annotations: [],
         status: 'draft',
         lastModified: new Date().toISOString()
       };
-      setMatrix(newMatrix);
     } finally {
       setLoading(false);
     }
@@ -149,8 +172,16 @@ const MatrixBuilder = () => {
     if (!matrix || !selectedPatient) return;
 
     try {
-      setLoading(true);
-      await MatrixService.update(matrix.Id, matrix);
+setLoading(true);
+      // Transform matrix for database storage
+      const dbMatrix = {
+        ...matrix,
+        systems: JSON.stringify(matrix.systems),
+        annotations: JSON.stringify(matrix.annotations),
+        patient_id: matrix.patientId,
+        last_modified: new Date().toISOString()
+      };
+      await MatrixService.update(matrix.Id, dbMatrix);
       toast.success('Matrix saved successfully');
     } catch (err) {
       toast.error('Failed to save matrix');

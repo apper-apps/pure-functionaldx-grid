@@ -36,8 +36,23 @@ const DiagnosticAnalysis = () => {
       setLoading(true);
       setError('');
       await new Promise(resolve => setTimeout(resolve, 300));
-      const data = await PatientService.getAll();
-      setPatients(data);
+const data = await PatientService.getAll();
+      // Transform database fields to match UI expectations
+      const transformedData = data.map(patient => ({
+        ...patient,
+        name: patient.Name,
+        dateOfBirth: patient.date_of_birth,
+        contactInfo: {
+          email: patient.contact_info_email,
+          phone: patient.contact_info_phone,
+          address: patient.contact_info_address
+        },
+        medicalHistory: patient.medical_history ? patient.medical_history.split(',') : [],
+        currentSymptoms: patient.current_symptoms ? patient.current_symptoms.split(',') : [],
+        labResults: patient.lab_results ? JSON.parse(patient.lab_results) : [],
+        createdAt: patient.created_at
+      }));
+      setPatients(transformedData);
     } catch (err) {
       setError('Failed to load patients');
     } finally {
@@ -47,7 +62,7 @@ const DiagnosticAnalysis = () => {
 
   const handlePatientSelect = (patient) => {
     setSelectedPatient(patient);
-    setAnalysisData({
+setAnalysisData({
       symptoms: patient.currentSymptoms?.join(', ') || '',
       medicalHistory: patient.medicalHistory?.join(', ') || '',
       labResults: patient.labResults?.map(lab => `${lab.name}: ${lab.value} ${lab.unit}`).join(', ') || '',

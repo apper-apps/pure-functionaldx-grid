@@ -1,11 +1,14 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import ApperIcon from '@/components/ApperIcon';
 import Button from '@/components/atoms/Button';
-
+import { AuthContext } from '@/App';
 const Header = ({ onMenuToggle }) => {
   const location = useLocation();
   const [notifications, setNotifications] = useState(3);
+  const { logout } = useContext(AuthContext);
+  const { user } = useSelector((state) => state.user);
 
   const getPageTitle = () => {
     switch (location.pathname) {
@@ -42,7 +45,7 @@ const Header = ({ onMenuToggle }) => {
           </div>
         </div>
 
-        <div className="flex items-center space-x-4">
+<div className="flex items-center space-x-4">
           <Button variant="ghost" size="sm" className="relative">
             <ApperIcon name="Bell" size={20} />
             {notifications > 0 && (
@@ -56,12 +59,18 @@ const Header = ({ onMenuToggle }) => {
             <ApperIcon name="Settings" size={20} />
           </Button>
           
+          <Button variant="ghost" size="sm" onClick={logout}>
+            <ApperIcon name="LogOut" size={20} />
+          </Button>
+          
           <div className="flex items-center space-x-2 bg-clinical-50 rounded-lg px-3 py-2">
             <div className="w-8 h-8 bg-gradient-to-r from-primary-500 to-primary-600 rounded-full flex items-center justify-center">
               <ApperIcon name="User" size={16} className="text-white" />
             </div>
             <div className="hidden sm:block">
-              <p className="text-sm font-medium text-clinical-900">Dr. Smith</p>
+              <p className="text-sm font-medium text-clinical-900">
+                {user?.firstName ? `${user.firstName} ${user.lastName}` : 'Dr. Smith'}
+              </p>
               <p className="text-xs text-clinical-600">Functional Medicine</p>
             </div>
           </div>

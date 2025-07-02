@@ -1,4 +1,4 @@
-export const IntakeFormService = {
+export const FormResponseService = {
   getAll: async () => {
     try {
       const { ApperClient } = window.ApperSDK;
@@ -12,16 +12,13 @@ export const IntakeFormService = {
           { field: { Name: "Name" } },
           { field: { Name: "Tags" } },
           { field: { Name: "Owner" } },
-          { field: { Name: "title" } },
-          { field: { Name: "description" } },
-          { field: { Name: "questions" } },
-          { field: { Name: "status" } },
-          { field: { Name: "created_at" } },
-          { field: { Name: "last_modified" } }
+          { field: { Name: "form_id" } },
+          { field: { Name: "data" } },
+          { field: { Name: "completed_at" } }
         ]
       };
       
-      const response = await apperClient.fetchRecords('intake_form', params);
+      const response = await apperClient.fetchRecords('form_response', params);
       
       if (!response.success) {
         console.error(response.message);
@@ -30,7 +27,7 @@ export const IntakeFormService = {
       
       return response.data || [];
     } catch (error) {
-      console.error('Error fetching intake forms:', error);
+      console.error('Error fetching form responses:', error);
       throw error;
     }
   },
@@ -48,16 +45,13 @@ export const IntakeFormService = {
           { field: { Name: "Name" } },
           { field: { Name: "Tags" } },
           { field: { Name: "Owner" } },
-          { field: { Name: "title" } },
-          { field: { Name: "description" } },
-          { field: { Name: "questions" } },
-          { field: { Name: "status" } },
-          { field: { Name: "created_at" } },
-          { field: { Name: "last_modified" } }
+          { field: { Name: "form_id" } },
+          { field: { Name: "data" } },
+          { field: { Name: "completed_at" } }
         ]
       };
       
-      const response = await apperClient.getRecordById('intake_form', parseInt(id), params);
+      const response = await apperClient.getRecordById('form_response', parseInt(id), params);
       
       if (!response.success) {
         console.error(response.message);
@@ -66,23 +60,52 @@ export const IntakeFormService = {
       
       return response.data;
     } catch (error) {
-      console.error(`Error fetching intake form with ID ${id}:`, error);
+      console.error(`Error fetching form response with ID ${id}:`, error);
       throw error;
     }
   },
 
-  getResponses: async (formId) => {
-    // Get responses from form_response table
+  getByFormId: async (formId) => {
     try {
-      const FormResponseService = await import('./FormResponseService.js');
-      return await FormResponseService.FormResponseService.getByFormId(formId);
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+      
+      const params = {
+        fields: [
+          { field: { Name: "Name" } },
+          { field: { Name: "Tags" } },
+          { field: { Name: "Owner" } },
+          { field: { Name: "form_id" } },
+          { field: { Name: "data" } },
+          { field: { Name: "completed_at" } }
+        ],
+        where: [
+          {
+            FieldName: "form_id",
+            Operator: "EqualTo",
+            Values: [parseInt(formId)]
+          }
+        ]
+      };
+      
+      const response = await apperClient.fetchRecords('form_response', params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        throw new Error(response.message);
+      }
+      
+      return response.data || [];
     } catch (error) {
       console.error(`Error fetching responses for form ${formId}:`, error);
-      return [];
+      throw error;
     }
   },
 
-  create: async (formData) => {
+  create: async (responseData) => {
     try {
       const { ApperClient } = window.ApperSDK;
       const apperClient = new ApperClient({
@@ -92,19 +115,16 @@ export const IntakeFormService = {
       
       const params = {
         records: [{
-          Name: formData.Name || formData.title,
-          Tags: formData.Tags,
-          Owner: formData.Owner,
-          title: formData.title,
-          description: formData.description,
-          questions: JSON.stringify(formData.questions),
-          status: formData.status || 'draft',
-          created_at: new Date().toISOString(),
-          last_modified: new Date().toISOString()
+          Name: responseData.Name || `Response ${Date.now()}`,
+          Tags: responseData.Tags,
+          Owner: responseData.Owner,
+          form_id: parseInt(responseData.form_id),
+          data: JSON.stringify(responseData.data),
+          completed_at: responseData.completed_at || new Date().toISOString()
         }]
       };
       
-      const response = await apperClient.createRecord('intake_form', params);
+      const response = await apperClient.createRecord('form_response', params);
       
       if (!response.success) {
         console.error(response.message);
@@ -117,13 +137,13 @@ export const IntakeFormService = {
         
         if (failedRecords.length > 0) {
           console.error(`Failed to create ${failedRecords.length} records:${JSON.stringify(failedRecords)}`);
-          throw new Error('Failed to create intake form record');
+          throw new Error('Failed to create form response record');
         }
         
         return successfulRecords[0]?.data;
       }
     } catch (error) {
-      console.error('Error creating intake form:', error);
+      console.error('Error creating form response:', error);
       throw error;
     }
   },
@@ -139,19 +159,16 @@ export const IntakeFormService = {
       const params = {
         records: [{
           Id: parseInt(id),
-          Name: updates.Name || updates.title,
+          Name: updates.Name,
           Tags: updates.Tags,
           Owner: updates.Owner,
-          title: updates.title,
-          description: updates.description,
-          questions: JSON.stringify(updates.questions),
-          status: updates.status,
-          created_at: updates.created_at,
-          last_modified: new Date().toISOString()
+          form_id: parseInt(updates.form_id),
+          data: JSON.stringify(updates.data),
+          completed_at: updates.completed_at
         }]
       };
       
-      const response = await apperClient.updateRecord('intake_form', params);
+      const response = await apperClient.updateRecord('form_response', params);
       
       if (!response.success) {
         console.error(response.message);
@@ -164,13 +181,13 @@ export const IntakeFormService = {
         
         if (failedUpdates.length > 0) {
           console.error(`Failed to update ${failedUpdates.length} records:${JSON.stringify(failedUpdates)}`);
-          throw new Error('Failed to update intake form record');
+          throw new Error('Failed to update form response record');
         }
         
         return successfulUpdates[0]?.data;
       }
     } catch (error) {
-      console.error('Error updating intake form:', error);
+      console.error('Error updating form response:', error);
       throw error;
     }
   },
@@ -187,7 +204,7 @@ export const IntakeFormService = {
         RecordIds: [parseInt(id)]
       };
       
-      const response = await apperClient.deleteRecord('intake_form', params);
+      const response = await apperClient.deleteRecord('form_response', params);
       
       if (!response.success) {
         console.error(response.message);
@@ -199,13 +216,13 @@ export const IntakeFormService = {
         
         if (failedDeletions.length > 0) {
           console.error(`Failed to delete ${failedDeletions.length} records:${JSON.stringify(failedDeletions)}`);
-          throw new Error('Failed to delete intake form record');
+          throw new Error('Failed to delete form response record');
         }
         
         return true;
       }
     } catch (error) {
-      console.error('Error deleting intake form:', error);
+      console.error('Error deleting form response:', error);
       throw error;
     }
   }

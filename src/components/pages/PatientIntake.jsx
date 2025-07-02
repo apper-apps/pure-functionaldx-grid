@@ -27,11 +27,19 @@ const PatientIntake = () => {
       setLoading(true);
       setError('');
       await new Promise(resolve => setTimeout(resolve, 300));
-      const data = await IntakeFormService.getAll();
-      setForms(data);
-      if (data.length > 0) {
-        setSelectedForm(data[0]);
-        loadResponses(data[0].Id);
+const data = await IntakeFormService.getAll();
+      // Transform database fields to match UI expectations
+      const transformedData = data.map(form => ({
+        ...form,
+        title: form.title || form.Name,
+        questions: form.questions ? JSON.parse(form.questions) : [],
+        createdAt: form.created_at,
+        lastModified: form.last_modified
+      }));
+      setForms(transformedData);
+      if (transformedData.length > 0) {
+        setSelectedForm(transformedData[0]);
+        loadResponses(transformedData[0].Id);
       }
     } catch (err) {
       setError('Failed to load intake forms');
@@ -63,21 +71,42 @@ const PatientIntake = () => {
     setActiveTab('builder');
   };
 
-  const saveForm = async (formData) => {
+const saveForm = async (formData) => {
     try {
       setLoading(true);
       
       if (forms.find(f => f.Id === formData.Id)) {
-        await IntakeFormService.update(formData.Id, formData);
-        setForms(prev => prev.map(f => f.Id === formData.Id ? formData : f));
+        const savedForm = await IntakeFormService.update(formData.Id, {
+          ...formData,
+          questions: formData.questions,
+          last_modified: new Date().toISOString()
+        });
+        const transformedForm = {
+          ...savedForm,
+          title: savedForm.title || savedForm.Name,
+          questions: savedForm.questions ? JSON.parse(savedForm.questions) : [],
+          createdAt: savedForm.created_at,
+          lastModified: savedForm.last_modified
+        };
+        setForms(prev => prev.map(f => f.Id === formData.Id ? transformedForm : f));
+        setSelectedForm(transformedForm);
         toast.success('Form updated successfully');
       } else {
-        const savedForm = await IntakeFormService.create(formData);
-        setForms(prev => [...prev, savedForm]);
+        const savedForm = await IntakeFormService.create({
+          ...formData,
+          questions: formData.questions
+        });
+        const transformedForm = {
+          ...savedForm,
+          title: savedForm.title || savedForm.Name,
+          questions: savedForm.questions ? JSON.parse(savedForm.questions) : [],
+          createdAt: savedForm.created_at,
+          lastModified: savedForm.last_modified
+        };
+        setForms(prev => [...prev, transformedForm]);
+        setSelectedForm(transformedForm);
         toast.success('Form created successfully');
       }
-      
-      setSelectedForm(formData);
     } catch (err) {
       toast.error('Failed to save form');
     } finally {
