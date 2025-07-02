@@ -1,0 +1,54 @@
+[
+  {
+    "Id": 1,
+    "formId": 1,
+    "data": {
+      "Full Name": "Sarah Mitchell",
+      "Date of Birth": "1985-03-15",
+      "What are your main health concerns or symptoms?": "I've been experiencing chronic fatigue and brain fog for the past year. It's really affecting my work and daily life. I also have digestive issues and joint pain.",
+      "Which of the following symptoms do you currently experience?": ["Fatigue", "Brain fog", "Joint pain", "Digestive issues", "Sleep problems"],
+      "How would you rate your overall energy level?": 3,
+      "List any medications or supplements you are currently taking": "Levothyroxine 50mcg daily, Vitamin D3 2000 IU, Magnesium 400mg",
+      "How many hours of sleep do you typically get per night?": "5-6 hours"
+    },
+    "completedAt": "2024-01-15T09:30:00Z"
+  },
+  {
+    "Id": 2,
+    "formId": 1,
+    "data": {
+      "Full Name": "Michael Chen",
+      "Date of Birth": "1978-11-22",
+      "What are your main health concerns or symptoms?": "Weight management has been difficult, and I'm having trouble controlling my blood sugar levels. I also snore heavily and wake up tired.",
+      "Which of the following symptoms do you currently experience?": ["Fatigue", "Weight changes", "Sleep problems", "Mood changes"],
+      "How would you rate your overall energy level?": 4,
+      "List any medications or supplements you are currently taking": "Metformin 1000mg twice daily, Lisinopril 10mg daily, CPAP machine for sleep",
+      "How many hours of sleep do you typically get per night?": "7-8 hours"
+    },
+    "completedAt": "2024-01-20T14:15:00Z"
+  },
+  {
+    "Id": 3,
+    "formId": 2,
+    "data": {
+      "Patient Name": "Emma Rodriguez",
+      "How often do you experience digestive discomfort?": "Daily",
+      "Which digestive symptoms do you experience?": ["Bloating", "Gas", "Abdominal pain", "Food intolerance"],
+      "Describe your typical daily diet": "I try to eat healthy but often skip breakfast due to time constraints. Lunch is usually a salad or sandwich, dinner varies. I notice bloating after most meals, especially those with dairy or gluten.",
+      "Rate your stress level on average": 7
+    },
+    "completedAt": "2024-01-18T11:45:00Z"
+  },
+  {
+    "Id": 4,
+    "formId": 3,
+    "data": {
+      "Patient Name": "Emma Rodriguez",
+      "What is your biological sex?": "Female",
+      "Which hormonal symptoms do you experience?": ["Irregular periods", "PMS symptoms", "Mood swings", "Weight gain", "Hair loss or thinning"],
+      "How would you rate your energy throughout the day?": 4,
+      "Describe any family history of hormonal conditions": "My mother had thyroid issues and my grandmother had diabetes. There's also a history of PCOS on my mother's side."
+    },
+    "completedAt": "2024-01-19T16:20:00Z"
+  }
+]

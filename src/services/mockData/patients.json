@@ -1,0 +1,254 @@
+[
+  {
+    "Id": 1,
+    "name": "Sarah Mitchell",
+    "dateOfBirth": "1985-03-15",
+    "contactInfo": {
+      "email": "sarah.mitchell@email.com",
+      "phone": "(555) 123-4567",
+      "address": "123 Oak Street, Springfield, IL 62701"
+    },
+    "medicalHistory": [
+      "Hypothyroidism (2018)",
+      "Anxiety disorder (2020)",
+      "Vitamin D deficiency (2021)"
+    ],
+    "currentSymptoms": [
+      "Chronic fatigue",
+      "Brain fog",
+      "Joint pain",
+      "Digestive issues"
+    ],
+    "labResults": [
+      {
+        "name": "TSH",
+        "value": "4.2",
+        "unit": "mIU/L",
+        "date": "2024-01-15"
+      },
+      {
+        "name": "Vitamin D",
+        "value": "28",
+        "unit": "ng/mL",
+        "date": "2024-01-15"
+      },
+      {
+        "name": "CRP",
+        "value": "3.1",
+        "unit": "mg/L",
+        "date": "2024-01-15"
+      }
+    ],
+    "createdAt": "2024-01-10T10:30:00Z"
+  },
+  {
+    "Id": 2,
+    "name": "Michael Chen",
+    "dateOfBirth": "1978-11-22",
+    "contactInfo": {
+      "email": "michael.chen@email.com",
+      "phone": "(555) 234-5678",
+      "address": "456 Pine Avenue, Springfield, IL 62702"
+    },
+    "medicalHistory": [
+      "Type 2 Diabetes (2019)",
+      "High blood pressure (2020)",
+      "Sleep apnea (2021)"
+    ],
+    "currentSymptoms": [
+      "Weight gain",
+      "Poor sleep quality",
+      "Frequent urination",
+      "Mood swings"
+    ],
+    "labResults": [
+      {
+        "name": "HbA1c",
+        "value": "7.8",
+        "unit": "%",
+        "date": "2024-01-20"
+      },
+      {
+        "name": "Fasting Glucose",
+        "value": "145",
+        "unit": "mg/dL",
+        "date": "2024-01-20"
+      },
+      {
+        "name": "Total Cholesterol",
+        "value": "220",
+        "unit": "mg/dL",
+        "date": "2024-01-20"
+      }
+    ],
+    "createdAt": "2024-01-12T14:45:00Z"
+  },
+  {
+    "Id": 3,
+    "name": "Emma Rodriguez",
+    "dateOfBirth": "1992-07-08",
+    "contactInfo": {
+      "email": "emma.rodriguez@email.com",
+      "phone": "(555) 345-6789",
+      "address": "789 Maple Drive, Springfield, IL 62703"
+    },
+    "medicalHistory": [
+      "PCOS (2020)",
+      "IBS (2019)",
+      "Iron deficiency anemia (2021)"
+    ],
+    "currentSymptoms": [
+      "Irregular periods",
+      "Acne",
+      "Bloating",
+      "Hair loss"
+    ],
+    "labResults": [
+      {
+        "name": "Testosterone",
+        "value": "65",
+        "unit": "ng/dL",
+        "date": "2024-01-18"
+      },
+      {
+        "name": "Iron",
+        "value": "45",
+        "unit": "μg/dL",
+        "date": "2024-01-18"
+      },
+      {
+        "name": "DHEA-S",
+        "value": "420",
+        "unit": "μg/dL",
+        "date": "2024-01-18"
+      }
+    ],
+    "createdAt": "2024-01-14T09:15:00Z"
+  },
+  {
+    "Id": 4,
+    "name": "David Thompson",
+    "dateOfBirth": "1965-12-03",
+    "contactInfo": {
+      "email": "david.thompson@email.com",
+      "phone": "(555) 456-7890",
+      "address": "321 Elm Street, Springfield, IL 62704"
+    },
+    "medicalHistory": [
+      "Coronary artery disease (2015)",
+      "High cholesterol (2012)",
+      "Arthritis (2018)"
+    ],
+    "currentSymptoms": [
+      "Chest pain",
+      "Shortness of breath",
+      "Joint stiffness",
+      "Fatigue"
+    ],
+    "labResults": [
+      {
+        "name": "LDL Cholesterol",
+        "value": "160",
+        "unit": "mg/dL",
+        "date": "2024-01-22"
+      },
+      {
+        "name": "Troponin",
+        "value": "0.02",
+        "unit": "ng/mL",
+        "date": "2024-01-22"
+      },
+      {
+        "name": "ESR",
+        "value": "35",
+        "unit": "mm/hr",
+        "date": "2024-01-22"
+      }
+    ],
+    "createdAt": "2024-01-16T16:20:00Z"
+  },
+  {
+    "Id": 5,
+    "name": "Lisa Johnson",
+    "dateOfBirth": "1989-04-25",
+    "contactInfo": {
+      "email": "lisa.johnson@email.com",
+      "phone": "(555) 567-8901",
+      "address": "654 Cedar Lane, Springfield, IL 62705"
+    },
+    "medicalHistory": [
+      "Fibromyalgia (2021)",
+      "Depression (2019)",
+      "Chronic migraines (2020)"
+    ],
+    "currentSymptoms": [
+      "Widespread pain",
+      "Sleep disturbances",
+      "Headaches",
+      "Concentration issues"
+    ],
+    "labResults": [
+      {
+        "name": "Magnesium",
+        "value": "1.5",
+        "unit": "mg/dL",
+        "date": "2024-01-25"
+      },
+      {
+        "name": "B12",
+        "value": "250",
+        "unit": "pg/mL",
+        "date": "2024-01-25"
+      },
+      {
+        "name": "Cortisol",
+        "value": "18",
+        "unit": "μg/dL",
+        "date": "2024-01-25"
+      }
+    ],
+    "createdAt": "2024-01-18T11:30:00Z"
+  },
+  {
+    "Id": 6,
+    "name": "Robert Anderson",
+    "dateOfBirth": "1972-09-14",
+    "contactInfo": {
+      "email": "robert.anderson@email.com",
+      "phone": "(555) 678-9012",
+      "address": "987 Birch Road, Springfield, IL 62706"
+    },
+    "medicalHistory": [
+      "Crohn's disease (2016)",
+      "Kidney stones (2020)",
+      "Food allergies (2018)"
+    ],
+    "currentSymptoms": [
+      "Abdominal pain",
+      "Diarrhea",
+      "Weight loss",
+      "Nutrient deficiencies"
+    ],
+    "labResults": [
+      {
+        "name": "Calprotectin",
+        "value": "850",
+        "unit": "μg/g",
+        "date": "2024-01-28"
+      },
+      {
+        "name": "Albumin",
+        "value": "3.2",
+        "unit": "g/dL",
+        "date": "2024-01-28"
+      },
+      {
+        "name": "Folate",
+        "value": "3.5",
+        "unit": "ng/mL",
+        "date": "2024-01-28"
+      }
+    ],
+    "createdAt": "2024-01-20T13:45:00Z"
+  }
+]

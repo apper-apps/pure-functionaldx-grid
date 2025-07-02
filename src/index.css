@@ -1,0 +1,80 @@
+@import 'react-toastify/dist/ReactToastify.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f8fafc;
+}
+
+.Toastify__toast-container {
+  width: 320px;
+}
+
+.Toastify__toast {
+  border-radius: 8px;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 14px;
+}
+
+.Toastify__toast--success {
+  background: linear-gradient(135deg, #059669, #10b981);
+}
+
+.Toastify__toast--error {
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+}
+
+.Toastify__toast--info {
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+}
+
+.Toastify__toast--warning {
+  background: linear-gradient(135deg, #f59e0b, #fbbf24);
+}
+
+.matrix-cell {
+  transition: all 0.2s ease-out;
+}
+
+.matrix-cell:hover {
+  transform: scale(1.02);
+}
+
+.ai-insight-card {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.05), rgba(139, 92, 246, 0.1));
+  border-left: 4px solid #7c3aed;
+}
+
+.diagnostic-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.pulse-save {
+  animation: pulse-save 0.6s ease-out;
+}
+
+@keyframes pulse-save {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

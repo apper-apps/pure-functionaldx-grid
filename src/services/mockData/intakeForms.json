@@ -1,0 +1,197 @@
+[
+  {
+    "Id": 1,
+    "title": "Comprehensive Health History",
+    "description": "Detailed intake form for new patients covering medical history, symptoms, and lifestyle factors",
+    "questions": [
+      {
+        "Id": 1,
+        "type": "text",
+        "label": "Full Name",
+        "required": true
+      },
+      {
+        "Id": 2,
+        "type": "text",
+        "label": "Date of Birth",
+        "required": true
+      },
+      {
+        "Id": 3,
+        "type": "textarea",
+        "label": "What are your main health concerns or symptoms?",
+        "required": true
+      },
+      {
+        "Id": 4,
+        "type": "checkbox",
+        "label": "Which of the following symptoms do you currently experience?",
+        "options": [
+          "Fatigue",
+          "Brain fog",
+          "Joint pain",
+          "Digestive issues",
+          "Sleep problems",
+          "Mood changes",
+          "Weight changes",
+          "Skin problems"
+        ],
+        "required": false
+      },
+      {
+        "Id": 5,
+        "type": "scale",
+        "label": "How would you rate your overall energy level?",
+        "scale": {
+          "min": 1,
+          "max": 10,
+          "labels": ["Very Low", "Very High"]
+        },
+        "required": true
+      },
+      {
+        "Id": 6,
+        "type": "textarea",
+        "label": "List any medications or supplements you are currently taking",
+        "required": false
+      },
+      {
+        "Id": 7,
+        "type": "select",
+        "label": "How many hours of sleep do you typically get per night?",
+        "options": [
+          "Less than 5 hours",
+          "5-6 hours",
+          "7-8 hours",
+          "More than 8 hours"
+        ],
+        "required": true
+      }
+    ],
+    "status": "published",
+    "createdAt": "2024-01-10T08:00:00Z",
+    "lastModified": "2024-01-12T10:30:00Z"
+  },
+  {
+    "Id": 2,
+    "title": "Digestive Health Assessment",
+    "description": "Specialized form for evaluating gastrointestinal symptoms and digestive health",
+    "questions": [
+      {
+        "Id": 1,
+        "type": "text",
+        "label": "Patient Name",
+        "required": true
+      },
+      {
+        "Id": 2,
+        "type": "select",
+        "label": "How often do you experience digestive discomfort?",
+        "options": [
+          "Daily",
+          "Several times per week",
+          "Weekly",
+          "Occasionally",
+          "Rarely"
+        ],
+        "required": true
+      },
+      {
+        "Id": 3,
+        "type": "checkbox",
+        "label": "Which digestive symptoms do you experience?",
+        "options": [
+          "Bloating",
+          "Gas",
+          "Abdominal pain",
+          "Diarrhea",
+          "Constipation",
+          "Nausea",
+          "Heartburn",
+          "Food intolerance"
+        ],
+        "required": true
+      },
+      {
+        "Id": 4,
+        "type": "textarea",
+        "label": "Describe your typical daily diet",
+        "required": true
+      },
+      {
+        "Id": 5,
+        "type": "scale",
+        "label": "Rate your stress level on average",
+        "scale": {
+          "min": 1,
+          "max": 10,
+          "labels": ["Very Low", "Very High"]
+        },
+        "required": true
+      }
+    ],
+    "status": "published",
+    "createdAt": "2024-01-12T09:30:00Z",
+    "lastModified": "2024-01-14T11:15:00Z"
+  },
+  {
+    "Id": 3,
+    "title": "Hormone Balance Evaluation",
+    "description": "Assessment form for hormonal health and endocrine system function",
+    "questions": [
+      {
+        "Id": 1,
+        "type": "text",
+        "label": "Patient Name",
+        "required": true
+      },
+      {
+        "Id": 2,
+        "type": "select",
+        "label": "What is your biological sex?",
+        "options": [
+          "Female",
+          "Male",
+          "Prefer not to answer"
+        ],
+        "required": true
+      },
+      {
+        "Id": 3,
+        "type": "checkbox",
+        "label": "Which hormonal symptoms do you experience?",
+        "options": [
+          "Irregular periods",
+          "PMS symptoms",
+          "Hot flashes",
+          "Night sweats",
+          "Mood swings",
+          "Low libido",
+          "Weight gain",
+          "Hair loss or thinning"
+        ],
+        "required": false
+      },
+      {
+        "Id": 4,
+        "type": "scale",
+        "label": "How would you rate your energy throughout the day?",
+        "scale": {
+          "min": 1,
+          "max": 10,
+          "labels": ["Consistently Low", "Consistently High"]
+        },
+        "required": true
+      },
+      {
+        "Id": 5,
+        "type": "textarea",
+        "label": "Describe any family history of hormonal conditions",
+        "required": false
+      }
+    ],
+    "status": "draft",
+    "createdAt": "2024-01-15T13:20:00Z",
+    "lastModified": "2024-01-16T09:45:00Z"
+  }
+]

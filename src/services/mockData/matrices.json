@@ -1,0 +1,132 @@
+[
+  {
+    "Id": 1,
+    "patientId": 1,
+    "systems": {
+      "Gastrointestinal": [
+        {
+          "name": "Leaky gut syndrome",
+          "severity": "moderate"
+        },
+        {
+          "name": "SIBO",
+          "severity": "mild"
+        }
+      ],
+      "Energy": [
+        {
+          "name": "Mitochondrial dysfunction",
+          "severity": "severe"
+        },
+        {
+          "name": "Adrenal fatigue",
+          "severity": "moderate"
+        }
+      ],
+      "Hormonal": [
+        {
+          "name": "Thyroid dysfunction",
+          "severity": "moderate"
+        }
+      ],
+      "Immune": [
+        {
+          "name": "Chronic inflammation",
+          "severity": "moderate"
+        }
+      ]
+    },
+    "annotations": [
+      {
+        "system": "Energy",
+        "note": "Primary focus - patient reports severe fatigue affecting daily activities"
+      },
+      {
+        "system": "Gastrointestinal",
+        "note": "Secondary priority - digestive issues may be contributing to nutrient malabsorption"
+      }
+    ],
+    "status": "active",
+    "lastModified": "2024-01-15T16:45:00Z"
+  },
+  {
+    "Id": 2,
+    "patientId": 2,
+    "systems": {
+      "Energy": [
+        {
+          "name": "Insulin resistance",
+          "severity": "severe"
+        },
+        {
+          "name": "Metabolic syndrome",
+          "severity": "severe"
+        }
+      ],
+      "Hormonal": [
+        {
+          "name": "Leptin resistance",
+          "severity": "moderate"
+        },
+        {
+          "name": "Cortisol dysregulation",
+          "severity": "mild"
+        }
+      ],
+      "Structural": [
+        {
+          "name": "Sleep apnea",
+          "severity": "moderate"
+        }
+      ]
+    },
+    "annotations": [
+      {
+        "system": "Energy",
+        "note": "Core metabolic dysfunction - requires comprehensive dietary intervention"
+      }
+    ],
+    "status": "active",
+    "lastModified": "2024-01-20T12:30:00Z"
+  },
+  {
+    "Id": 3,
+    "patientId": 3,
+    "systems": {
+      "Hormonal": [
+        {
+          "name": "PCOS",
+          "severity": "moderate"
+        },
+        {
+          "name": "Androgen excess",
+          "severity": "mild"
+        }
+      ],
+      "Gastrointestinal": [
+        {
+          "name": "IBS",
+          "severity": "moderate"
+        },
+        {
+          "name": "Gut-hormone axis disruption",
+          "severity": "mild"
+        }
+      ],
+      "Detoxification": [
+        {
+          "name": "Phase II detox impairment",
+          "severity": "mild"
+        }
+      ]
+    },
+    "annotations": [
+      {
+        "system": "Hormonal",
+        "note": "PCOS management requires multi-system approach"
+      }
+    ],
+    "status": "active",
+    "lastModified": "2024-01-18T14:20:00Z"
+  }
+]

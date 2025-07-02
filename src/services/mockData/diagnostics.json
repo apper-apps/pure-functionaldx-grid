@@ -1,0 +1,54 @@
+[
+  {
+    "Id": 1,
+    "patientId": 1,
+    "inputData": {
+      "symptoms": "Chronic fatigue, brain fog, joint pain, digestive issues",
+      "medicalHistory": "Hypothyroidism, anxiety disorder, vitamin D deficiency",
+      "labResults": "TSH: 4.2 mIU/L, Vitamin D: 28 ng/mL, CRP: 3.1 mg/L",
+      "lifestyle": "Sedentary lifestyle, high stress job, poor sleep quality",
+      "notes": "Patient reports symptoms worsening over past 6 months"
+    },
+    "aiSuggestions": [
+      {
+        "Id": 1,
+        "condition": "Mitochondrial Dysfunction",
+        "confidence": 85,
+        "reasoning": "Chronic fatigue and brain fog patterns suggest cellular energy production issues",
+        "supportingEvidence": [
+          "Persistent energy depletion symptoms",
+          "Elevated inflammatory markers",
+          "Thyroid dysfunction correlation"
+        ]
+      }
+    ],
+    "practitionerNotes": "Consider comprehensive metabolic panel and mitochondrial support protocols",
+    "timestamp": "2024-01-15T14:30:00Z"
+  },
+  {
+    "Id": 2,
+    "patientId": 2,
+    "inputData": {
+      "symptoms": "Weight gain, poor sleep quality, frequent urination, mood swings",
+      "medicalHistory": "Type 2 diabetes, high blood pressure, sleep apnea",
+      "labResults": "HbA1c: 7.8%, Fasting Glucose: 145 mg/dL, Total Cholesterol: 220 mg/dL",
+      "lifestyle": "High carbohydrate diet, irregular meal timing, minimal exercise",
+      "notes": "Blood sugar control has been challenging despite medication"
+    },
+    "aiSuggestions": [
+      {
+        "Id": 2,
+        "condition": "Insulin Resistance Syndrome",
+        "confidence": 92,
+        "reasoning": "Multiple metabolic markers indicate severe insulin resistance",
+        "supportingEvidence": [
+          "Elevated HbA1c and fasting glucose",
+          "Weight gain and mood instability",
+          "Sleep quality disruption"
+        ]
+      }
+    ],
+    "practitionerNotes": "Recommend ketogenic diet trial and continuous glucose monitoring",
+    "timestamp": "2024-01-20T10:15:00Z"
+  }
+]
