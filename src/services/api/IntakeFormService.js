@@ -57,9 +57,18 @@ export const IntakeFormService = {
         ]
       };
       
-      const response = await apperClient.getRecordById('intake_form', parseInt(id), params);
+const response = await apperClient.getRecordById('intake_form', parseInt(id), params);
       
       if (!response.success) {
+        // Handle "not found" as null return, throw for other errors
+        if (response.message && (
+          response.message.includes('not found') || 
+          response.message.includes('Not found') ||
+          response.message.includes('Record with id') ||
+          response.message.includes('does not exist')
+        )) {
+          return null;
+        }
         console.error(response.message);
         throw new Error(response.message);
       }
