@@ -1,3 +1,5 @@
+import { FormResponseService } from "@/services/api/FormResponseService";
+
 export const IntakeFormService = {
   getAll: async () => {
     try {
@@ -9,15 +11,21 @@ export const IntakeFormService = {
       
       const params = {
         fields: [
-          { field: { Name: "Name" } },
-          { field: { Name: "Tags" } },
-          { field: { Name: "Owner" } },
-          { field: { Name: "title" } },
-          { field: { Name: "description" } },
-          { field: { Name: "questions" } },
-          { field: { Name: "status" } },
-          { field: { Name: "created_at" } },
-          { field: { Name: "last_modified" } }
+          { "field": { "Name": "Name" } },
+          { "field": { "Name": "Tags" } },
+          { "field": { "Name": "Owner" } },
+          { "field": { "Name": "title" } },
+          { "field": { "Name": "description" } },
+          { "field": { "Name": "questions" } },
+          { "field": { "Name": "status" } },
+          { "field": { "Name": "created_at" } },
+          { "field": { "Name": "last_modified" } }
+        ],
+        orderBy: [
+          {
+            "fieldName": "created_at",
+            "sorttype": "DESC"
+          }
         ]
       };
       
@@ -104,7 +112,7 @@ getById: async (id) => {
     }
   },
 
-  create: async (formData) => {
+create: async (formData) => {
     try {
       const { ApperClient } = window.ApperSDK;
       const apperClient = new ApperClient({
@@ -113,7 +121,7 @@ getById: async (id) => {
       });
       
       const params = {
-records: [{
+        records: [{
           Name: formData.Name || formData.title,
           Tags: formData.Tags,
           Owner: formData.Owner ? parseInt(formData.Owner) : null,
@@ -150,7 +158,7 @@ records: [{
     }
   },
 
-  update: async (id, updates) => {
+update: async (id, updates) => {
     try {
       const { ApperClient } = window.ApperSDK;
       const apperClient = new ApperClient({
@@ -160,7 +168,7 @@ records: [{
       
       const params = {
         records: [{
-Id: parseInt(id),
+          Id: parseInt(id),
           Name: updates.Name || updates.title,
           Tags: updates.Tags,
           Owner: updates.Owner ? parseInt(updates.Owner) : null,
@@ -197,7 +205,7 @@ Id: parseInt(id),
     }
   },
 
-  delete: async (id) => {
+delete: async (id) => {
     try {
       const { ApperClient } = window.ApperSDK;
       const apperClient = new ApperClient({
