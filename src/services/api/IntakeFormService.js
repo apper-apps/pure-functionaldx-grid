@@ -91,10 +91,10 @@ export const IntakeFormService = {
       });
       
       const params = {
-        records: [{
+records: [{
           Name: formData.Name || formData.title,
           Tags: formData.Tags,
-          Owner: formData.Owner,
+          Owner: formData.Owner ? parseInt(formData.Owner) : null,
           title: formData.title,
           description: formData.description,
           questions: JSON.stringify(formData.questions),
@@ -138,10 +138,10 @@ export const IntakeFormService = {
       
       const params = {
         records: [{
-          Id: parseInt(id),
+Id: parseInt(id),
           Name: updates.Name || updates.title,
           Tags: updates.Tags,
-          Owner: updates.Owner,
+          Owner: updates.Owner ? parseInt(updates.Owner) : null,
           title: updates.title,
           description: updates.description,
           questions: JSON.stringify(updates.questions),
