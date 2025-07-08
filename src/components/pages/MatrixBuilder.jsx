@@ -96,10 +96,10 @@ const data = await PatientService.getAll();
     await loadMatrix(patient.Id);
   };
 
-  const loadMatrix = async (patientId) => {
+const loadMatrix = async (patientId) => {
     try {
       setLoading(true);
-const matrixData = await MatrixService.getByPatientId(patientId);
+      const matrixData = await MatrixService.getByPatientId(patientId);
       // Transform database fields to match UI expectations
       const transformedMatrix = {
         ...matrixData,
@@ -111,15 +111,30 @@ const matrixData = await MatrixService.getByPatientId(patientId);
       setMatrix(transformedMatrix);
     } catch (err) {
       // Create new matrix if none exists
-// Create new matrix if none exists
-      const newMatrix = {
-        Name: `Matrix for Patient ${patientId}`,
-        patient_id: patientId,
-        systems: {},
-        annotations: [],
-        status: 'draft',
-        lastModified: new Date().toISOString()
-      };
+      try {
+        const newMatrixData = {
+          Name: `Matrix for Patient ${patientId}`,
+          patient_id: patientId,
+          systems: {},
+          annotations: [],
+          status: 'draft'
+        };
+        
+        const createdMatrix = await MatrixService.create(newMatrixData);
+        const transformedMatrix = {
+          ...createdMatrix,
+          systems: createdMatrix.systems ? JSON.parse(createdMatrix.systems) : {},
+          annotations: createdMatrix.annotations ? JSON.parse(createdMatrix.annotations) : [],
+          patientId: createdMatrix.patient_id,
+          lastModified: createdMatrix.last_modified
+        };
+        setMatrix(transformedMatrix);
+        toast.success('New matrix created for patient');
+      } catch (createErr) {
+        console.error('Failed to create new matrix:', createErr);
+        setError('Failed to create matrix for patient');
+        toast.error('Failed to create matrix for patient');
+      }
     } finally {
       setLoading(false);
     }

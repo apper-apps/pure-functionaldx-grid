@@ -9,6 +9,7 @@ import Error from '@/components/ui/Error';
 import Empty from '@/components/ui/Empty';
 import ApperIcon from '@/components/ApperIcon';
 import { IntakeFormService } from '@/services/api/IntakeFormService';
+import { FormResponseService } from '@/services/api/FormResponseService';
 
 const PatientIntake = () => {
   const [forms, setForms] = useState([]);
@@ -48,9 +49,9 @@ const data = await IntakeFormService.getAll();
     }
   };
 
-  const loadResponses = async (formId) => {
+const loadResponses = async (formId) => {
     try {
-      const formResponses = await IntakeFormService.getResponses(formId);
+      const formResponses = await FormResponseService.getByFormId(formId);
       setResponses(formResponses);
     } catch (err) {
       console.error('Failed to load responses:', err);
