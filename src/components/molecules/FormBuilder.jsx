@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Button from '@/components/atoms/Button';
 import Input from '@/components/atoms/Input';
 import Textarea from '@/components/atoms/Textarea';
@@ -7,7 +7,42 @@ import { motion } from 'framer-motion';
 
 const FormBuilder = ({ form, onUpdateForm }) => {
   const [editingQuestion, setEditingQuestion] = useState(null);
+  const [localForm, setLocalForm] = useState(form);
+  const [showSaveIndicator, setShowSaveIndicator] = useState(false);
+  const saveTimeoutRef = useRef(null);
 
+  // Update local form when external form changes
+  useEffect(() => {
+    setLocalForm(form);
+  }, [form]);
+
+  // Debounced save function
+  const debouncedSave = (updatedForm) => {
+    setLocalForm(updatedForm);
+    
+    // Clear existing timeout
+    if (saveTimeoutRef.current) {
+      clearTimeout(saveTimeoutRef.current);
+    }
+    
+    // Set new timeout for auto-save
+    saveTimeoutRef.current = setTimeout(() => {
+      onUpdateForm(updatedForm);
+      setShowSaveIndicator(true);
+      
+      // Hide save indicator after animation
+      setTimeout(() => setShowSaveIndicator(false), 600);
+    }, 3000); // 3 second delay
+  };
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
+      }
+    };
+  }, []);
   const questionTypes = [
     { type: 'text', label: 'Text Input', icon: 'Type' },
     { type: 'textarea', label: 'Long Text', icon: 'AlignLeft' },
@@ -32,20 +67,22 @@ const FormBuilder = ({ form, onUpdateForm }) => {
     });
   };
 
-  const updateQuestion = (questionId, updates) => {
-    const updatedQuestions = form.questions.map(q => 
+const updateQuestion = (questionId, updates) => {
+    const updatedQuestions = localForm.questions.map(q => 
       q.Id === questionId ? { ...q, ...updates } : q
     );
-    onUpdateForm({ ...form, questions: updatedQuestions });
+    debouncedSave({ ...localForm, questions: updatedQuestions });
   };
 
-  const removeQuestion = (questionId) => {
-    const updatedQuestions = form.questions.filter(q => q.Id !== questionId);
-    onUpdateForm({ ...form, questions: updatedQuestions });
+const removeQuestion = (questionId) => {
+    const updatedQuestions = localForm.questions.filter(q => q.Id !== questionId);
+    const updatedForm = { ...localForm, questions: updatedQuestions };
+    setLocalForm(updatedForm);
+    onUpdateForm(updatedForm); // Immediate save for deletions
   };
 
-  const moveQuestion = (questionId, direction) => {
-    const questions = [...form.questions];
+const moveQuestion = (questionId, direction) => {
+    const questions = [...localForm.questions];
     const index = questions.findIndex(q => q.Id === questionId);
     
     if (direction === 'up' && index > 0) {
@@ -54,24 +91,34 @@ const FormBuilder = ({ form, onUpdateForm }) => {
       [questions[index], questions[index + 1]] = [questions[index + 1], questions[index]];
     }
     
-    onUpdateForm({ ...form, questions });
+    const updatedForm = { ...localForm, questions };
+    setLocalForm(updatedForm);
+    onUpdateForm(updatedForm); // Immediate save for reordering
   };
 
-  return (
+return (
     <div className="space-y-6">
-      <div className="bg-white rounded-lg border border-clinical-200 p-6">
-        <h3 className="text-lg font-semibold text-clinical-900 mb-4">Form Settings</h3>
+      <div className={`bg-white rounded-lg border border-clinical-200 p-6 ${showSaveIndicator ? 'pulse-save' : ''}`}>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold text-clinical-900">Form Settings</h3>
+          {showSaveIndicator && (
+            <div className="flex items-center text-sm text-secondary-600">
+              <ApperIcon name="Check" size={14} className="mr-1" />
+              Auto-saved
+            </div>
+          )}
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Input
             label="Form Title"
-            value={form.title || ''}
-            onChange={(e) => onUpdateForm({ ...form, title: e.target.value })}
+            value={localForm.title || ''}
+            onChange={(e) => debouncedSave({ ...localForm, title: e.target.value })}
             placeholder="Enter form title"
           />
           <Textarea
             label="Description"
-            value={form.description || ''}
-            onChange={(e) => onUpdateForm({ ...form, description: e.target.value })}
+            value={localForm.description || ''}
+            onChange={(e) => debouncedSave({ ...localForm, description: e.target.value })}
             placeholder="Brief description of the form"
             rows={2}
           />
@@ -97,8 +144,8 @@ const FormBuilder = ({ form, onUpdateForm }) => {
           </div>
         </div>
 
-        <div className="space-y-4">
-          {form.questions?.map((question, index) => (
+<div className="space-y-4">
+          {localForm.questions?.map((question, index) => (
             <motion.div
               key={question.Id}
               initial={{ opacity: 0, y: 20 }}
@@ -126,8 +173,8 @@ const FormBuilder = ({ form, onUpdateForm }) => {
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => moveQuestion(question.Id, 'down')}
-                    disabled={index === form.questions.length - 1}
+onClick={() => moveQuestion(question.Id, 'down')}
+                    disabled={index === localForm.questions.length - 1}
                   >
                     <ApperIcon name="ChevronDown" size={16} />
                   </Button>
@@ -224,7 +271,7 @@ const FormBuilder = ({ form, onUpdateForm }) => {
             </motion.div>
           ))}
 
-          {(!form.questions || form.questions.length === 0) && (
+{(!localForm.questions || localForm.questions.length === 0) && (
             <div className="text-center py-8 text-clinical-500">
               <ApperIcon name="FileText" size={32} className="mx-auto mb-2 opacity-50" />
               <p>No questions added yet. Click on a question type above to get started.</p>
