@@ -16,8 +16,9 @@ const FormBuilder = ({ form, onUpdateForm }) => {
     setLocalForm(form);
   }, [form]);
 
-  // Debounced save function
-  const debouncedSave = (updatedForm) => {
+// Immediate local update with debounced save
+  const updateLocalForm = (updatedForm) => {
+    // Immediately update local state for responsive UI
     setLocalForm(updatedForm);
     
     // Clear existing timeout
@@ -25,14 +26,14 @@ const FormBuilder = ({ form, onUpdateForm }) => {
       clearTimeout(saveTimeoutRef.current);
     }
     
-    // Set new timeout for auto-save
+    // Set new timeout for auto-save to backend
     saveTimeoutRef.current = setTimeout(() => {
       onUpdateForm(updatedForm);
       setShowSaveIndicator(true);
       
       // Hide save indicator after animation
       setTimeout(() => setShowSaveIndicator(false), 600);
-    }, 3000); // 3 second delay
+    }, 1000); // 1 second delay for better UX
   };
 
   // Cleanup timeout on unmount
@@ -71,7 +72,7 @@ const updateQuestion = (questionId, updates) => {
     const updatedQuestions = localForm.questions.map(q => 
       q.Id === questionId ? { ...q, ...updates } : q
     );
-    debouncedSave({ ...localForm, questions: updatedQuestions });
+    updateLocalForm({ ...localForm, questions: updatedQuestions });
   };
 
 const removeQuestion = (questionId) => {
@@ -109,16 +110,16 @@ return (
           )}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Input
+<Input
             label="Form Title"
             value={localForm.title || ''}
-            onChange={(e) => debouncedSave({ ...localForm, title: e.target.value })}
+            onChange={(e) => updateLocalForm({ ...localForm, title: e.target.value })}
             placeholder="Enter form title"
           />
           <Textarea
             label="Description"
             value={localForm.description || ''}
-            onChange={(e) => debouncedSave({ ...localForm, description: e.target.value })}
+            onChange={(e) => updateLocalForm({ ...localForm, description: e.target.value })}
             placeholder="Brief description of the form"
             rows={2}
           />
