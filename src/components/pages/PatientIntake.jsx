@@ -1,16 +1,15 @@
-import { useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
-import Card from '@/components/atoms/Card';
-import Button from '@/components/atoms/Button';
-import Badge from '@/components/atoms/Badge';
-import FormBuilder from '@/components/molecules/FormBuilder';
-import Loading from '@/components/ui/Loading';
-import Error from '@/components/ui/Error';
-import Empty from '@/components/ui/Empty';
-import ApperIcon from '@/components/ApperIcon';
-import { IntakeFormService } from '@/services/api/IntakeFormService';
-import { FormResponseService } from '@/services/api/FormResponseService';
-
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import ApperIcon from "@/components/ApperIcon";
+import Empty from "@/components/ui/Empty";
+import Error from "@/components/ui/Error";
+import Loading from "@/components/ui/Loading";
+import FormBuilder from "@/components/molecules/FormBuilder";
+import Card from "@/components/atoms/Card";
+import Badge from "@/components/atoms/Badge";
+import Button from "@/components/atoms/Button";
+import { FormResponseService } from "@/services/api/FormResponseService";
+import { IntakeFormService } from "@/services/api/IntakeFormService";
 const PatientIntake = () => {
   const [forms, setForms] = useState([]);
   const [selectedForm, setSelectedForm] = useState(null);
@@ -108,8 +107,35 @@ const saveForm = async (formData) => {
         setSelectedForm(transformedForm);
         toast.success('Form created successfully');
       }
-    } catch (err) {
+} catch (err) {
       toast.error('Failed to save form');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const publishForm = async (formId) => {
+    if (!window.confirm('Are you sure you want to publish this form? Once published, it will be available for patient responses.')) return;
+
+    try {
+      setLoading(true);
+      const updatedForm = await IntakeFormService.update(formId, {
+        status: 'published'
+      });
+      
+      const transformedForm = {
+        ...updatedForm,
+        title: updatedForm.title || updatedForm.Name,
+        questions: updatedForm.questions ? JSON.parse(updatedForm.questions) : [],
+        createdAt: updatedForm.created_at,
+        lastModified: updatedForm.last_modified
+      };
+      
+      setForms(prev => prev.map(f => f.Id === formId ? transformedForm : f));
+      setSelectedForm(transformedForm);
+      toast.success('Form published successfully');
+    } catch (err) {
+      toast.error('Failed to publish form');
     } finally {
       setLoading(false);
     }
@@ -130,11 +156,10 @@ const saveForm = async (formData) => {
     }
   };
 
-  const handleFormSelect = async (form) => {
+const handleFormSelect = async (form) => {
     setSelectedForm(form);
-    await loadResponses(form.Id);
+    loadResponses(form.Id);
   };
-
   if (loading && forms.length === 0) {
     return <Loading type="skeleton" />;
   }
@@ -400,8 +425,7 @@ const saveForm = async (formData) => {
                   Last updated: {new Date(selectedForm.lastModified || selectedForm.createdAt).toLocaleString()}
                 </span>
               </div>
-              
-              <div className="flex space-x-2">
+<div className="flex space-x-2">
                 <Button
                   variant="outline"
                   onClick={() => deleteForm(selectedForm.Id)}
@@ -414,10 +438,20 @@ const saveForm = async (formData) => {
                   <ApperIcon name="Copy" size={16} className="mr-2" />
                   Duplicate
                 </Button>
-                <Button>
-                  <ApperIcon name="Share" size={16} className="mr-2" />
-                  Publish
-                </Button>
+                {selectedForm.status === 'published' ? (
+                  <Button variant="outline" disabled>
+                    <ApperIcon name="CheckCircle" size={16} className="mr-2" />
+                    Published
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={() => publishForm(selectedForm.Id)}
+                    disabled={loading}
+                  >
+                    <ApperIcon name="Share" size={16} className="mr-2" />
+                    {loading ? 'Publishing...' : 'Publish'}
+                  </Button>
+                )}
               </div>
             </div>
           </Card>
